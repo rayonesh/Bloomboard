@@ -1,0 +1,47 @@
+Study Heatmap for students to track their tasks
+HEATMAP TASK TRACKER — CS50 CHECKLIST
+======================================
+
+SETUP
+[ * ] Create project folder structure (app.py · static/ · templates/)
+[ * ] Run sqlite3 and create heatmap.db (tables: users · tasks · completions)
+[ * ] Paste and save new app.py
+
+TEMPLATES
+[ ] layout.html — base template with navbar
+[ ] register.html — reuse from old project
+[ ] login.html — reuse from old project
+[ ] tasks.html — add, view, delete tasks
+[ ] dashboard.html — streak, task list, mark complete
+[ ] heatmap.html — 365-day grid (main feature)
+
+STYLING
+[ ] style.css — base styles (fonts, colors, layout)
+[ ] Heatmap grid CSS — color intensity for activity levels
+
+TESTING
+[ ] Register a test account
+[ ] Add tasks and mark complete
+[ ] Verify heatmap fills correctly
+[ ] Test login / logout / register flow
+
+FINAL TOUCHES
+[ ] Write README.md (required for CS50)
+[ ] Record demo video
+[ ] Submit on CS50 portal
+
+
+project/
+├── flask_session/
+├── static/
+│   └── style.css
+├── templates/
+│   ├── layout.html
+│   ├── login.html
+│   ├── register.html
+│   ├── dashboard.html
+│   ├── heatmap.html
+│   └── tasks.html
+├── app.py
+├── heatmap.db
+└── Todo-List.txt
