@@ -1,0 +1,394 @@
+/* IMPORT FONT */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* RESET & BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ECE0DA;
+    color: #3a3a3a;
+}
+
+/* DASHBOARD BACKGROUND */
+body.dashboard {
+    background-color: #FFFFFF;
+    background-image: url('/static/floral.png');
+    background-repeat: repeat;
+    background-size: 400px;
+    background-attachment: fixed;
+}
+
+/* TASKS BACKGROUND */
+body.tasks {
+    background-color: #FFFFFF;
+    background-image: url('/static/floral.png');
+    background-repeat: repeat;
+    background-size: 400px;
+    background-attachment: fixed;
+}
+
+/* SUBJECTS BACKGROUND */
+body.subjects {
+    background-color: #FFFFFF;
+    background-image: url('/static/floral.png');
+    background-repeat: repeat;
+    background-size: 400px;
+    background-attachment: fixed;
+}
+
+/* heatmap background */
+body.tasks {
+    background-color: #FFFFFF;
+    background-repeat: repeat;
+    background-size: 400px;
+    background-attachment: fixed;
+}
+
+/* NAV */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 40px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dde8dd;
+}
+
+nav h2 {
+    color: #7E8C69;
+    font-weight: 600;
+    font-size: 26px;
+    margin-right: auto;
+    letter-spacing: 0.5px;
+}
+
+nav a {
+    color: #7E8C69;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+
+nav a:hover {
+    background-color: #f0eddf;
+}
+
+/* MAIN */
+main {
+    padding: 40px 20px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* DASHBOARD WRAP */
+.dashboard-wrap {
+    background: #f5f0eb;
+    border-radius: 24px;
+    border: 2px solid #c7beb3;
+    padding: 36px 32px;
+    box-shadow: 0 8px 40px rgba(126, 140, 105, 0.15);
+}
+
+/* HEADINGS */
+h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #3a3a3a;
+    margin-bottom: 6px;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #3a3a3a;
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #7E8C69;
+    margin-bottom: 12px;
+}
+
+p {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.6;
+}
+
+/* CARDS */
+.card {
+    background: #ffffff;
+    padding: 24px 28px;
+    margin-top: 16px;
+    border-radius: 16px;
+    border: 1px solid #c7beb3;
+}
+
+/* HERO */
+.hero {
+    background: #d4e6c3;
+    padding: 24px 20px;
+    border-radius: 16px;
+    margin-bottom: 10px;
+}
+
+.hero h1 {
+    color: #7E8C69;
+    font-size: 26px;
+}
+
+.hero p {
+    color: #6a7857;
+    margin-top: 6px;
+}
+
+/* STATS */
+.stats {
+    display: flex;
+    gap: 16px;
+}
+
+.stat-item {
+    flex: 1;
+    background: #f5f0eb;
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid #c7beb3;
+}
+
+.stat-item span {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-item strong {
+    font-size: 24px;
+    font-weight: 600;
+    color: #7E8C69;
+}
+
+/* INPUT */
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    padding: 10px 14px;
+    width: 260px;
+    border-radius: 10px;
+    border: 1px solid #c7beb3;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    background: #faf6ef;
+    outline: none;
+    transition: border 0.2s;
+}
+
+input:focus {
+    border-color: #7E8C69;
+}
+
+/* BUTTON */
+button {
+    padding: 10px 20px;
+    border: none;
+    background: #7E8C69;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 8px;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #6a7857;
+}
+
+/* FLASH MESSAGES */
+ul {
+    list-style: none;
+    margin-bottom: 16px;
+}
+
+ul li {
+    background: #f0eddf;
+    color: #7E8C69;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+/* LOGS / TASK LIST */
+.logs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.log-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f5f0eb;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #c7beb3;
+    font-size: 14px;
+}
+
+/* HEATMAP */
+
+body.heatmap {
+    background-color: #FFFFFF;
+    background-image: url('/static/floral.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(53, 14px);
+    grid-template-rows: repeat(7, 14px);
+    gap: 3px;
+    margin: 20px 0;
+    grid-auto-flow: column;
+    background: rgba(255,255,255,0.6);
+    padding: 16px;
+    border-radius: 14px;
+}
+.heatmap-cell {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+}
+
+.level-0 { background-color: #c8c2b8; }
+.level-1 { background-color: #BCAD8C; }
+.level-2 { background-color: #8CAD8C; }
+.level-3 { background-color: #7E8C69; }
+.level-4 { background-color: #4a6741; }
+.level-0 { background-color: #e0dbd4; }
+.level-1 { background-color: #BCAD8C; }
+.level-2 { background-color: #8CAD8C; }
+.level-3 { background-color: #7E8C69; }
+.level-4 { background-color: #4a6741; }
+
+.heatmap-legend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+}
+
+
+.subject-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.tab {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    font-size: 0.95rem;
+    color: inherit;
+    background: transparent;
+    transition: background 0.2s;
+}
+
+.tab:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.tab.active {
+    background: #7a9e7e;
+    color: white;
+    border-color: #7a9e7e;
+}
+
+.add-tab {
+    border-style: dashed;
+}
+
+.calendar-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    padding: 16px;
+}
+input[type="date"],
+input[type="time"] {
+    background: #7E8C69 !important;
+    color: white !important;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+<input type="date" name="event_date" required style="flex: 1; min-width: 140px; background: #7E8C69; color: white; border: none; border-radius: 10px; padding: 10px 16px; font-size: 0.95rem; cursor: pointer; font-family: 'Poppins', sans-serif;">
+<input type="time" name="event_time" style="flex: 1; min-width: 120px; background: #7E8C69; color: white; border: none; border-radius: 10px; padding: 10px 16px; font-size: 0.95rem; cursor: pointer; font-family: 'Poppins', sans-serif;">
+
+select {
+    background: #7E8C69 !important;
+    color: white !important;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+select option {
+    background: #ffffff;
+    color: #3a3a3a;
+}
+
+.month-1  { background-image: url('/static/months/Jan.png'); }
+.month-2  { background-image: url('/static/months/2feb.png'); }
+.month-3  { background-image: url('/static/months/march.png'); }
+.month-4  { background-image: url('/static/months/4april.png'); }
+.month-5  { background-image: url('/static/months/5mayy.png'); }
+.month-6  { background-image: url('/static/months/jun.png'); }
+.month-7  { background-image: url('/static/months/july.png'); }
+.month-8  { background-image: url('/static/months/Aug.png'); }
+.month-9  { background-image: url('/static/months/sep.png'); }
+.month-10 { background-image: url('/static/months/oct.png'); }
+.month-11 { background-image: url('/static/months/nov.png'); }
+.month-12 { background-image: url('/static/months/dec.png'); }
+
+/* LOGIN & REGISTER BACKGROUND */
+body.login-page {
+    background-image: url('/static/like.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
