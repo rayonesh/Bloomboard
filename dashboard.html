@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block body_class %}dashboard{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-wrap">
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="logo-box">🌱</div>
+        <h1>Bloom Every Day</h1>
+        <p>Track your tasks and watch your garden grow</p>
+    </div>
+
+    <!-- USER CARD -->
+    <div class="card">
+        <h2>Welcome, {{ username }} 🌸</h2>
+    </div>
+
+    <!-- STATS -->
+    <div class="card">
+        <h3>Your Stats</h3>
+        <div class="stats">
+<div class="stat-item">
+    <span>Current Streak</span>
+    <strong>{{ streak }} days {% if streak > 0 %}🔥{% endif %}</strong>
+</div>
+            <div class="stat-item">
+                <span>Total Completions</span>
+                <strong>{{ total }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- TASKS -->
+    <div class="card">
+        <h3>Today's Tasks</h3>
+
+        {% if tasks %}
+            <div class="logs">
+                {% for task in tasks %}
+                    <div class="log-item">
+                        <span>{{ task.name }}</span>
+
+                        {% if task.id in completed_ids %}
+                            <strong style="color: #70702e;">Done ✓</strong>
+                        {% else %}
+                            <form method="post" action="/complete/{{ task.id }}" style="display:inline;">
+                                <button type="submit">Mark Complete</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No tasks yet. <a href="/tasks" style="color: #70702e;">Add some tasks!</a></p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

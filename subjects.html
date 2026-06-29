@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block body_class %}subjects{% endblock %}
+
+{% block content %}
+<h2 style="font-size: 2.5rem;">My Subjects</h2>
+
+<form method="post">
+    <input type="text" name="subject_name" placeholder="Enter a subject..." required style="font-size: 1rem;">
+    <button type="submit">Add Subject</button>
+</form>
+
+{% if subjects %}
+    <div class="logs" style="margin-top: 20px;">
+        {% for subject in subjects %}
+            <div class="log-item" style="flex-direction: column; align-items: flex-start;">
+                <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <span style="font-size: 1.2rem;">{{ subject.name }}</span>
+                    <form method="post" action="/subjects/delete/{{ subject.id }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+
+                {% if subject.tasks %}
+                    <ul style="margin-top: 8px; padding-left: 16px;">
+                        {% for task in subject.tasks %}
+                            <li style="font-size: 1rem; color: gray;">{{ task.name }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p style="font-size: 0.9rem; color: lightgray; margin-top: 6px;">No tasks under this subject yet.</p>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p style="margin-top: 16px;">No subjects yet. Add one above!</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,231 @@
+{% extends "layout.html" %}
+
+{% block body_class %}calendar{% endblock %}
+
+{% block content %}
+<h2 style="font-size: 2rem;">Calendar</h2>
+
+<!-- Add Event Form -->
+<div style="margin-bottom: 2rem;">
+    <form method="post" id="eventForm">
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 10px;">
+            <input type="text" name="title" placeholder="Event title" required style="flex: 2; min-width: 160px;">
+
+            <!-- Custom Date Button -->
+            <div style="position: relative;">
+                <div id="dateBtn" style="background:#7E8C69;color:white;border:none;border-radius:10px;padding:10px 16px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px;min-width:140px;font-family:'Poppins',sans-serif;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+                    <span id="dateLabel">Pick a date</span>
+                </div>
+                <input type="hidden" name="event_date" id="event_date">
+
+                <!-- Calendar Dropdown -->
+                <div id="calPicker" style="display:none;position:absolute;z-index:100;background:white;border:1px solid #c7beb3;border-radius:14px;padding:16px;margin-top:6px;min-width:260px;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                        <button type="button" id="prevM" style="background:none;border:none;color:#7E8C69;font-size:18px;cursor:pointer;padding:0 6px;margin:0;">&#8592;</button>
+                        <span id="monthLabel" style="font-size:15px;font-weight:500;color:#3a3a3a;"></span>
+                        <button type="button" id="nextM" style="background:none;border:none;color:#7E8C69;font-size:18px;cursor:pointer;padding:0 6px;margin:0;">&#8594;</button>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;">
+                        <div style="text-align:center;font-size:11px;color:#888;font-weight:500;padding:4px 0;">Mo</div>
+                        <div style="text-align:center;font-size:11px;color:#888;font-weight:500;padding:4px 0;">Tu</div>
+                        <div style="text-align:center;font-size:11px;color:#888;font-weight:500;padding:4px 0;">We</div>
+                        <div style="text-align:center;font-size:11px;color:#888;font-weight:500;padding:4px 0;">Th</div>
+                        <div style="text-align:center;font-size:11px;color:#888;font-weight:500;padding:4px 0;">Fr</div>
+                        <div style="text-align:center;font-size:11px;color:#888;font-weight:500;padding:4px 0;">Sa</div>
+                        <div style="text-align:center;font-size:11px;color:#888;font-weight:500;padding:4px 0;">Su</div>
+                    </div>
+                    <div id="dayGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;"></div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+                        <span style="font-size:12px;color:#888;">Or type:</span>
+                        <input type="text" id="typeDate" placeholder="dd/mm/yyyy" maxlength="10" style="flex:1;padding:6px 10px;border-radius:8px;border:1px solid #c7beb3;font-size:13px;background:#faf6ef;width:auto;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Time Button -->
+            <div style="position:relative;">
+                <div id="timeBtn" style="background:#7E8C69;color:white;border:none;border-radius:10px;padding:10px 16px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px;min-width:120px;font-family:'Poppins',sans-serif;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+                    <span id="timeLabel">Pick a time</span>
+                </div>
+                <input type="hidden" name="event_time" id="event_time">
+
+                <!-- Time Dropdown -->
+                <div id="timePicker" style="display:none;position:absolute;z-index:100;background:white;border:1px solid #c7beb3;border-radius:14px;padding:16px;margin-top:6px;min-width:180px;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
+                    <div style="display:flex;align-items:center;gap:12px;justify-content:center;">
+                        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+                            <button type="button" id="hUp" style="background:none;border:none;color:#7E8C69;font-size:18px;cursor:pointer;margin:0;padding:0;">▲</button>
+                            <span id="hVal" style="font-size:22px;font-weight:500;color:#3a3a3a;min-width:32px;text-align:center;">12</span>
+                            <button type="button" id="hDown" style="background:none;border:none;color:#7E8C69;font-size:18px;cursor:pointer;margin:0;padding:0;">▼</button>
+                        </div>
+                        <span style="font-size:22px;color:#888;">:</span>
+                        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+                            <button type="button" id="mUp" style="background:none;border:none;color:#7E8C69;font-size:18px;cursor:pointer;margin:0;padding:0;">▲</button>
+                            <span id="mVal" style="font-size:22px;font-weight:500;color:#3a3a3a;min-width:32px;text-align:center;">00</span>
+                            <button type="button" id="mDown" style="background:none;border:none;color:#7E8C69;font-size:18px;cursor:pointer;margin:0;padding:0;">▼</button>
+                        </div>
+                    </div>
+                    <div style="text-align:center;margin-top:12px;">
+                        <button type="button" id="confirmTime" style="background:#7E8C69;color:white;border:none;border-radius:10px;padding:8px 20px;font-size:13px;cursor:pointer;margin:0;">Confirm</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subject Dropdown -->
+            <select name="subject_id" style="background:#7E8C69;color:white;border:none;border-radius:10px;padding:10px 16px;font-size:14px;cursor:pointer;font-family:'Poppins',sans-serif;min-width:140px;">
+                <option value="" style="background:white;color:#3a3a3a;">Choose Subject</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}" style="background:white;color:#3a3a3a;">{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;">
+            <input type="text" name="description" placeholder="Notes (optional)" style="flex:1;">
+            <button type="submit">Add Event</button>
+        </div>
+    </form>
+</div>
+
+<!-- Month Navigation -->
+<div class="calendar-bg month-{{ month }}" style="margin-top: 1rem;">
+    <div style="display:inline-flex;align-items:center;gap:16px;margin-bottom:1rem;background:rgba(255,255,255,0.5);padding:8px 12px;border-radius:10px;">
+        <a href="/calendar?month={{ prev_month }}&year={{ prev_year }}" style="text-decoration:none;font-size:1.2rem;">&#8592;</a>
+        <h3 style="margin:0;font-size:1.3rem;">{{ month_name }}</h3>
+        <a href="/calendar?month={{ next_month }}&year={{ next_year }}" style="text-decoration:none;font-size:1.2rem;">&#8594;</a>
+    </div>
+
+    <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+        <thead>
+            <tr>
+                {% for day in ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"] %}
+                    <th style="padding:8px;text-align:center;font-size:0.85rem;color:white;font-weight:500;text-shadow:0 1px 3px rgba(0,0,0,0.4);">{{ day }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for week in cal_matrix %}
+                <tr>
+                    {% for day in week %}
+                        {% if day == 0 %}
+                            <td style="padding:8px;min-height:80px;border:0.5px solid rgba(255,255,255,0.2);"></td>
+                        {% else %}
+                            {% set date_str = "%s-%02d-%02d" | format(year, month, day) %}
+                            {% set is_today = (year == today.year and month == today.month and day == today.day) %}
+                            <td style="padding:8px;vertical-align:top;min-height:80px;border:0.5px solid rgba(255,255,255,0.2);{% if is_today %}background:rgba(255,255,255,0.35);{% else %}background:rgba(255,255,255,0.15);{% endif %}border-radius:6px;">
+                                <div style="font-size:0.85rem;font-weight:{% if is_today %}600{% else %}400{% endif %};color:white;text-shadow:0 1px 3px rgba(0,0,0,0.4);margin-bottom:4px;">{{ day }}</div>
+                                {% if date_str in events_by_date %}
+                                    {% for event in events_by_date[date_str] %}
+                                        <div style="background:rgba(255,255,255,0.7);border-radius:6px;padding:3px 6px;margin-bottom:3px;font-size:0.75rem;">
+                                            <div style="font-weight:500;color:#333;">{{ event.title }}</div>
+                                            {% if event.subject_name %}<div style="color:gray;">{{ event.subject_name }}</div>{% endif %}
+                                            {% if event.event_time %}<div style="color:gray;">{{ event.event_time }}</div>{% endif %}
+                                            <form method="post" action="/events/delete/{{ event.id }}" style="margin-top:2px;">
+                                                <button type="submit" style="font-size:0.7rem;padding:1px 6px;border-radius:4px;">Delete</button>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+let cur=new Date(),selDate=null,hour=12,min=0;
+
+function renderCal(){
+    document.getElementById('monthLabel').textContent=months[cur.getMonth()]+' '+cur.getFullYear();
+    const grid=document.getElementById('dayGrid');
+    grid.innerHTML='';
+    const first=new Date(cur.getFullYear(),cur.getMonth(),1);
+    let startDay=(first.getDay()+6)%7;
+    for(let i=0;i<startDay;i++){const e=document.createElement('div');e.style.cssText='text-align:center;padding:7px 4px;font-size:13px;';grid.appendChild(e);}
+    const days=new Date(cur.getFullYear(),cur.getMonth()+1,0).getDate();
+    const today=new Date();
+    for(let d=1;d<=days;d++){
+        const e=document.createElement('div');
+        e.textContent=d;
+        const isToday=d===today.getDate()&&cur.getMonth()===today.getMonth()&&cur.getFullYear()===today.getFullYear();
+        const isSel=selDate&&d===selDate.getDate()&&cur.getMonth()===selDate.getMonth()&&cur.getFullYear()===selDate.getFullYear();
+        e.style.cssText='text-align:center;padding:7px 4px;border-radius:8px;font-size:13px;cursor:pointer;color:#3a3a3a;';
+        if(isToday)e.style.cssText+='background:#7E8C69;color:white;font-weight:500;';
+        if(isSel)e.style.cssText+='background:#6a7857;color:white;font-weight:500;';
+        e.onmouseover=()=>{if(!isToday&&!isSel)e.style.background='#f0eddf';};
+        e.onmouseout=()=>{if(!isToday&&!isSel)e.style.background='';};
+        e.onclick=()=>{
+            selDate=new Date(cur.getFullYear(),cur.getMonth(),d);
+            const ds=`${cur.getFullYear()}-${String(cur.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            document.getElementById('event_date').value=ds;
+            document.getElementById('dateLabel').textContent=`${String(d).padStart(2,'0')}/${String(cur.getMonth()+1).padStart(2,'0')}/${cur.getFullYear()}`;
+            document.getElementById('calPicker').style.display='none';
+            renderCal();
+        };
+        grid.appendChild(e);
+    }
+}
+
+document.getElementById('prevM').onclick=()=>{cur=new Date(cur.getFullYear(),cur.getMonth()-1,1);renderCal();};
+document.getElementById('nextM').onclick=()=>{cur=new Date(cur.getFullYear(),cur.getMonth()+1,1);renderCal();};
+
+document.getElementById('dateBtn').onclick=()=>{
+    const c=document.getElementById('calPicker');
+    c.style.display=c.style.display==='none'?'block':'none';
+    document.getElementById('timePicker').style.display='none';
+};
+document.getElementById('timeBtn').onclick=()=>{
+    const t=document.getElementById('timePicker');
+    t.style.display=t.style.display==='none'?'block':'none';
+    document.getElementById('calPicker').style.display='none';
+};
+
+document.getElementById('hUp').onclick=()=>{hour=(hour+1)%24;document.getElementById('hVal').textContent=String(hour).padStart(2,'0');};
+document.getElementById('hDown').onclick=()=>{hour=(hour+23)%24;document.getElementById('hVal').textContent=String(hour).padStart(2,'0');};
+document.getElementById('mUp').onclick=()=>{min=(min+5)%60;document.getElementById('mVal').textContent=String(min).padStart(2,'0');};
+document.getElementById('mDown').onclick=()=>{min=(min+55)%60;document.getElementById('mVal').textContent=String(min).padStart(2,'0');};
+
+document.getElementById('confirmTime').onclick=()=>{
+    const t=`${String(hour).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
+    document.getElementById('event_time').value=t;
+    document.getElementById('timeLabel').textContent=t;
+    document.getElementById('timePicker').style.display='none';
+};
+
+document.getElementById('typeDate').oninput=function(){
+    const v=this.value;
+    if(/^\d{2}\/\d{2}\/\d{4}$/.test(v)){
+        const[d,m,y]=v.split('/').map(Number);
+        const dt=new Date(y,m-1,d);
+        if(!isNaN(dt)){
+            selDate=dt;cur=new Date(y,m-1,1);
+            document.getElementById('event_date').value=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            document.getElementById('dateLabel').textContent=v;
+            renderCal();
+        }
+    }
+};
+
+document.addEventListener('click',function(e){
+    if(!document.getElementById('dateBtn').contains(e.target)&&!document.getElementById('calPicker').contains(e.target))
+        document.getElementById('calPicker').style.display='none';
+    if(!document.getElementById('timeBtn').contains(e.target)&&!document.getElementById('timePicker').contains(e.target))
+        document.getElementById('timePicker').style.display='none';
+});
+
+document.getElementById('eventForm').onsubmit=function(e){
+    if(!document.getElementById('event_date').value){
+        e.preventDefault();
+        alert('Please pick a date first!');
+    }
+};
+
+renderCal();
+</script>
+
+{% endblock %}

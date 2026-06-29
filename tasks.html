@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block body_class %}tasks{% endblock %}
+
+{% block content %}
+<h2 style="display: inline-block; font-size: 2.5rem;">My Tasks</h2>
+
+
+<!-- Subject Tabs -->
+<div class="subject-tabs">
+    <a href="/tasks" class="tab {% if not active_subject %}active{% endif %}">All</a>
+    {% for subject in subjects %}
+        <a href="/tasks?subject={{ subject.id }}" class="tab {% if active_subject == subject.id %}active{% endif %}">
+            {{ subject.name }}
+        </a>
+    {% endfor %}
+    <a href="/subjects" class="tab add-tab">+ Add Subject</a>
+</div>
+
+<!-- Add Task Form -->
+<form method="post" style="margin-top: 20px;">
+    <input type="hidden" name="subject_id" value="{{ active_subject or '' }}">
+    <input type="text" name="task_name" placeholder="Enter a new task..." required>
+    <button type="submit">Add Task</button>
+</form>
+
+<!-- Task List -->
+{% if tasks %}
+    <div class="logs" style="margin-top: 20px;">
+        {% for task in tasks %}
+            <div class="log-item">
+                <span>{{ task.name }}</span>
+                {% if task.subject_name %}
+                    <small style="color: gray;">{{ task.subject_name }}</small>
+                {% endif %}
+                <form method="post" action="/tasks/delete/{{ task.id }}">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p style="margin-top: 16px;">No tasks yet. Add one above!</p>
+{% endif %}
+
+{% endblock %}

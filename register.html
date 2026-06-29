@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body_class %}login-page{% endblock %}
+
+{% block content %}
+<h2>Register</h2>
+
+<form method="post">
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <input type="password" name="confirmation" placeholder="Confirm Password">
+    <button type="submit">Register</button>
+</form>
+
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+{% endblock %}

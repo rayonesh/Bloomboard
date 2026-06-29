@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block body_class %}heatmap{% endblock %}
+
+{% block content %}
+
+<h2>Your Bloom Board</h2>
+<!-- Year Selector -->
+<div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center;">
+    <span style="font-size: 0.9rem; color: #666;">Year:</span>
+    {% for year in available_years %}
+        <a href="/heatmap?year={{ year }}"
+           style="padding: 5px 14px; border-radius: 20px; border: 1px solid #c7beb3; text-decoration: none; font-size: 0.9rem;
+           {% if year == selected_year %}background: #7E8C69; color: white; border-color: #7E8C69;{% else %}color: #555; background: transparent;{% endif %}">
+            {{ year }}
+        </a>
+    {% endfor %}
+</div>
+
+<p>Every square is one day. Darker = more tasks completed.</p>
+<p style="font-size: 0.95rem; color: #555; margin-bottom: 12px;">
+    🌸 <strong>{{ total_this_year }}</strong> tasks completed in {{ today_date.year }}
+</p>
+
+<div style="background: rgba(255,255,255,0.6); border-radius: 14px; padding: 16px; overflow-x: auto; display: inline-block; max-width: 100%;">
+    <div style="display: flex; gap: 3px;">
+
+        <!-- Day Labels -->
+        <div style="display: flex; flex-direction: column; gap: 3px; margin-top: 20px; margin-right: 6px;">
+            <div style="height: 14px; font-size: 9px; color: #888; line-height: 14px;">Mon</div>
+            <div style="height: 14px; font-size: 9px; color: #888; line-height: 14px;">Tue</div>
+            <div style="height: 14px; font-size: 9px; color: #888; line-height: 14px;">Wed</div>
+            <div style="height: 14px; font-size: 9px; color: #888; line-height: 14px;">Thu</div>
+            <div style="height: 14px; font-size: 9px; color: #888; line-height: 14px;">Fri</div>
+            <div style="height: 14px; font-size: 9px; color: #888; line-height: 14px;">Sat</div>
+            <div style="height: 14px; font-size: 9px; color: #888; line-height: 14px;">Sun</div>
+        </div>
+
+        <!-- 12 months -->
+        <div style="display: flex; flex-direction: row; gap: 3px;">
+            {% set month_names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'] %}
+
+            {% for m_idx in range(12) %}
+                <div style="display: flex; flex-direction: column; gap: 3px;">
+                    <!-- Month label -->
+                    <div style="font-size: 10px; color: #666; height: 16px; white-space: nowrap; text-align: center; font-weight: 500;">
+                        {{ month_names[m_idx] }}
+                    </div>
+                    <!-- 4 weeks -->
+                    <div style="display: flex; flex-direction: row; gap: 3px;">
+                        {% for week in cal_grid[m_idx] %}
+                            <div style="display: flex; flex-direction: column; gap: 3px;">
+                                {% for day in week %}
+                                    {% if day and day <= today_date %}
+                                        {% set date_str = day.strftime('%Y-%m-%d') %}
+                                        {% set count = activity.get(date_str, 0) %}
+                                        {% if count == 0 %}
+                                            <div class="heatmap-cell level-0" title="{{ date_str }}"></div>
+                                        {% elif count == 1 %}
+                                            <div class="heatmap-cell level-1" title="{{ date_str }}"></div>
+                                        {% elif count == 2 %}
+                                            <div class="heatmap-cell level-2" title="{{ date_str }}"></div>
+                                        {% elif count == 3 %}
+                                            <div class="heatmap-cell level-3" title="{{ date_str }}"></div>
+                                        {% else %}
+                                            <div class="heatmap-cell level-4" title="{{ date_str }}"></div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div style="width:14px;height:14px;" class="heatmap-cell level-0" style="opacity:0.2;"></div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+<!-- Legend -->
+<div class="heatmap-legend" style="margin-top: 12px;">
+    <span>Less</span>
+    <div class="heatmap-cell level-0"></div>
+    <div class="heatmap-cell level-1"></div>
+    <div class="heatmap-cell level-2"></div>
+    <div class="heatmap-cell level-3"></div>
+    <div class="heatmap-cell level-4"></div>
+    <span>More</span>
+</div>
+
+{% endblock %}
